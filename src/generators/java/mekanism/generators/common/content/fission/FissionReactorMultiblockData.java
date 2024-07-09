@@ -47,6 +47,7 @@ import mekanism.generators.common.tile.fission.TileEntityFissionReactorCasing;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -307,7 +308,7 @@ public class FissionReactorMultiblockData extends MultiblockData implements IVal
             //Reset the heat to the default of the heat capacitor
             heatCapacitor.setHeat(heatCapacitor.getHeatCapacity() * biomeAmbientTemp);
             //Force sync the update to the cache that corresponds to this multiblock
-            MultiblockCache<FissionReactorMultiblockData> cache = MekanismGenerators.fissionReactorManager.getCache(inventoryID);
+            MultiblockCache<FissionReactorMultiblockData> cache = MekanismGenerators.fissionReactorManager.getCache((ServerLevel) world, inventoryID);
             if (cache != null) {
                 cache.sync(this);
             }

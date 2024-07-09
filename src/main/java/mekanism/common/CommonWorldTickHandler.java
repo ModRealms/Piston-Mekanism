@@ -1,5 +1,6 @@
 package mekanism.common;
 
+import com.mojang.datafixers.kinds.IdF;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -173,7 +174,7 @@ public class CommonWorldTickHandler {
     public void worldLoadEvent(LevelEvent.Load event) {
         if (!event.getLevel().isClientSide()) {
             FrequencyManager.load();
-            MultiblockManager.createOrLoadAll();
+            MultiblockManager.createOrLoadAll(((ServerLevel) event.getLevel()));
             QIOGlobalItemLookup.INSTANCE.createOrLoad();
             RadiationManager.get().createOrLoad();
         }

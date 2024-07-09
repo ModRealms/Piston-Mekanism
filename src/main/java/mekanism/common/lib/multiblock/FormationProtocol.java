@@ -23,6 +23,7 @@ import mekanism.common.util.EnumUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -104,7 +105,7 @@ public class FormationProtocol<T extends MultiblockData> {
                     }
                 }
                 //Replace the caches for all the old ids with a singular merged cache with our desired id
-                manager.replaceCaches(result.idsFound().keySet(), idToUse, cache);
+                manager.replaceCaches((ServerLevel) world, result.idsFound().keySet(), idToUse, cache);
                 if (!rejectContents.rejectedItems.isEmpty()) {
                     Vec3 dropPosition = Vec3.atCenterOf(pointerPos);
                     //Try to see which player was nearest to multiblocks that have rejected items
@@ -144,7 +145,7 @@ public class FormationProtocol<T extends MultiblockData> {
                 // so that we don't save it with empty data as otherwise we may end up with crashes in when merging multiblock caches
                 cache.sync(structureFound);
                 // and then we let the manager start tracking the cache so that it gets saved to the manager and can be used by multiblocks
-                manager.trackCache(idToUse, cache);
+                manager.trackCache((ServerLevel) world, idToUse, cache);
             }
             //TODO: Do we want to validate against overfilled tanks here?
             return FormationResult.SUCCESS;

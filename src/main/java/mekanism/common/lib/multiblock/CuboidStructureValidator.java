@@ -14,6 +14,7 @@ import mekanism.common.lib.multiblock.IValveHandler.ValveData;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -120,7 +121,7 @@ public abstract class CuboidStructureValidator<T extends MultiblockData> impleme
         if (tile instanceof IMultiblock<?> multiblockTile) {
             UUID uuid = multiblockTile.getCacheID();
             if (uuid != null && multiblockTile.getManager() == manager) {
-                MultiblockCache<T> cache = manager.getCache(uuid);
+                MultiblockCache<T> cache = manager.getCache((ServerLevel) multiblockTile.getTileWorld(), uuid);
                 if (cache == null) {
                     //If there is no cache matching the id the multiblock has reset the id it has cached as it is stale
                     multiblockTile.resetCache();
