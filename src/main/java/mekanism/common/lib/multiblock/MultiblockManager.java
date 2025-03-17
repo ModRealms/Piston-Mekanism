@@ -114,7 +114,6 @@ public class MultiblockManager<T extends MultiblockData> {
     public void replaceCaches(ServerLevel level, Set<UUID> staleIds, UUID id, MultiblockCache<T> cache) {
         for (UUID staleId : staleIds) {
             getCaches(level).remove(staleId);
-            System.out.println("Removing stale/old UUID from cache: " + staleId);
         }
         trackCache(level, id, cache);
     }
@@ -147,7 +146,6 @@ public class MultiblockManager<T extends MultiblockData> {
 
     private void markDirty() {
         dataHandler.values().forEach(SavedData::setDirty);
-        System.out.println("Marked all dimensions as dirty");
     }
 
     /**
@@ -202,7 +200,6 @@ public class MultiblockManager<T extends MultiblockData> {
                     CompoundTag cacheTags = cachesNbt.getCompound(i);
                     if (cacheTags.hasUUID(NBTConstants.INVENTORY_ID)) {
                         UUID id = cacheTags.getUUID(NBTConstants.INVENTORY_ID);
-                        System.out.println("Loading UUID from file cache: " + id);
                         MultiblockCache<T> cachedData = cacheSupplier.get();
                         cachedData.load(cacheTags);
                         getCaches(level).put(id, cachedData);
@@ -221,7 +218,6 @@ public class MultiblockManager<T extends MultiblockData> {
                 // as none of the caches save anything to this tag
                 cacheTags.putUUID(NBTConstants.INVENTORY_ID, entry.getKey());
 
-                System.out.println("Saving UUID into file cache: " + entry.getKey());
                 entry.getValue().save(cacheTags);
                 cachesNbt.add(cacheTags);
             }
